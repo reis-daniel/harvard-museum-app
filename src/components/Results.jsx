@@ -18,11 +18,9 @@ export default function Results({
         {results.map((item, i) => {
           return (
             <ArtItem
-              key={"id" + i + item.id}
+              key={"ART" + i + item.id}
               imageURL={item.primaryimageurl}
-              artist={
-                item.peoplecount > 0 ? item.people : [{ name: "Kein Artist" }]
-              }
+              artist={item.peoplecount > 0 ? item.people : []}
               title={item.title}
             />
           );
@@ -45,7 +43,7 @@ const ResultContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: space-evenly;
   align-items: flex-start;
+  justify-content: space-evenly;
   padding: 1rem;
 `;

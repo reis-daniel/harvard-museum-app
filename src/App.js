@@ -1,6 +1,7 @@
 // Import Components
 import GlobalStyle from "./components/GlobalsStyle";
 import Searchbar from "./components/Searchbar";
+import Filterbar from "./components/Filterbar";
 import Results from "./components/Results";
 
 // React Hooks
@@ -15,33 +16,71 @@ function App() {
   const [results, setResults] = useState([]);
   const [loadedResults, setLoadedResults] = useState(10);
   const [loadedPage, setLoadedPage] = useState(1);
+  const [filterOptionActive, setFilterOptionActive] = useState(false);
+  const [centuryOptions, setCenturyOptions] = useState([]);
+  const [techniqueOptions, setTechniqueOptions] = useState([]);
+  const [classificationOptions, setClassificationOptions] = useState([]);
 
   // Fetch Data from API and store it inside state. This fetch will run when the sites loads!
   useEffect(() => {
-    fetchDataHandler(loadedPage, loadedResults);
+    fetchDataHandler(false, loadedPage, loadedResults, "", "");
+    fetchSelectOptions("century");
+    fetchSelectOptions("technique");
+    fetchSelectOptions("classification");
   }, []);
 
   // Handler
-  const fetchDataHandler = async (pageNum, resultsNum) => {
+  const fetchDataHandler = async (
+    reRender,
+    pageNum,
+    resultsNum,
+    filterOption,
+    filterOptionValue
+  ) => {
+    console.log(
+      `https://api.harvardartmuseums.org/object?${filterOption}${filterOptionValue}&size=${resultsNum}&page=${pageNum}&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
+    );
     const res = await fetch(
-      `https://api.harvardartmuseums.org/object?century=17th century&size=${resultsNum}&page=${pageNum}&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
+      `https://api.harvardartmuseums.org/object?${filterOption}${filterOptionValue}&size=${resultsNum}&page=${pageNum}&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
     );
     let data = await res.json();
     console.log(data.records);
-    data.records.map((item) => setResults((current) => [...current, item]));
+    if (!reRender)
+      data.records.map((item) => setResults((current) => [...current, item]));
+    else {
+      setResults(data.records);
+    }
     setLoadedPage(loadedPage + 1);
   };
 
+  const fetchSelectOptions = async (selectName) => {
+    const res = await fetch(
+      `https://api.harvardartmuseums.org/${selectName}?size=500&sort=name&sortorder=asc&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
+    );
+    let data = await res.json();
+    if (selectName === "century") {
+      setCenturyOptions(data.records);
+    } else if (selectName === "technique") {
+      setTechniqueOptions(data.records);
+    } else if (selectName === "classification") {
+      setClassificationOptions(data.records);
+    }
+  };
+
   const loadMoreResultsHandler = () => {
-    console.log(loadedPage);
-    fetchDataHandler(loadedPage, loadedResults);
-    console.log("Loaded 10 more Results");
+    fetchDataHandler(false, loadedPage, loadedResults, "", "");
   };
 
   return (
     <div className="App">
       <GlobalStyle />
       <Searchbar />
+      <Filterbar
+        fetchDataHandler={fetchDataHandler}
+        centuryOptions={centuryOptions}
+        techniqueOptions={techniqueOptions}
+        classificationOptions={classificationOptions}
+      />
       <Results
         results={results}
         loadMoreResultsHandler={loadMoreResultsHandler}
