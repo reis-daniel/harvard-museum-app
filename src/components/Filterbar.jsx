@@ -36,9 +36,7 @@ export default function Filterbar({
               e.target.value !== "none" &&
               e.target.value !== "(not assigned)"
             ) {
-              fetchDataHandler(true, 1, 100, "century=", e.target.value);
-              clearSelectHandler([techniqueSelect, classificationSelect]);
-              techniqueSelect.selectedIndex = 0;
+              fetchDataHandler(true, 1, 100, `century=${e.target.value}`);
             }
           }}
         >
@@ -64,7 +62,7 @@ export default function Filterbar({
               e.target.value !== "none" &&
               e.target.value !== "(not assigned)"
             ) {
-              fetchDataHandler(true, 1, 100, "technique=", e.target.value);
+              fetchDataHandler(true, 1, 100, `century=${e.target.value}`);
             }
           }}
         >
@@ -90,7 +88,7 @@ export default function Filterbar({
               e.target.value !== "none" &&
               e.target.value !== "(not assigned)"
             ) {
-              fetchDataHandler(true, 1, 100, "classification=", e.target.value);
+              fetchDataHandler(true, 1, 100, `century=${e.target.value}`);
             }
           }}
         >

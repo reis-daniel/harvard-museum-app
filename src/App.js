@@ -34,14 +34,13 @@ function App() {
     reRender,
     pageNum,
     resultsNum,
-    filterOption,
-    filterOptionValue
+    filterOption
   ) => {
     console.log(
-      `https://api.harvardartmuseums.org/object?${filterOption}${filterOptionValue}&size=${resultsNum}&page=${pageNum}&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
+      `https://api.harvardartmuseums.org/object?${filterOption}&size=${resultsNum}&page=${pageNum}&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
     );
     const res = await fetch(
-      `https://api.harvardartmuseums.org/object?${filterOption}${filterOptionValue}&size=${resultsNum}&page=${pageNum}&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
+      `https://api.harvardartmuseums.org/object?${filterOption}&size=${resultsNum}&page=${pageNum}&apikey=${process.env.REACT_APP_HARVARD_API_KEY}`
     );
     let data = await res.json();
     console.log(data.records);
@@ -68,13 +67,13 @@ function App() {
   };
 
   const loadMoreResultsHandler = () => {
-    fetchDataHandler(false, loadedPage, loadedResults, "", "");
+    fetchDataHandler(false, loadedPage, loadedResults, "");
   };
 
   return (
     <div className="App">
       <GlobalStyle />
-      <Searchbar />
+      <Searchbar fetchDataHandler={fetchDataHandler} />
       <Filterbar
         fetchDataHandler={fetchDataHandler}
         centuryOptions={centuryOptions}
