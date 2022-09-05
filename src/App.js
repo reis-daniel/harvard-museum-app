@@ -7,10 +7,6 @@ import Results from "./components/Results";
 // React Hooks
 import { useState, useEffect } from "react";
 
-// Styled Components
-import styled from "styled-components";
-import { MoreButton } from "./styles";
-
 function App() {
   // States
   const [results, setResults] = useState([]);

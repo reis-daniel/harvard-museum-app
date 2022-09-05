@@ -15,27 +15,26 @@ export default function Results({
   return (
     <LayoutContainer>
       <ResultContainer>
-        {results.map((item, i) => {
-          return (
-            <ArtItem
-              key={"ART" + i + item.id}
-              imageURL={item.primaryimageurl}
-              artist={item.peoplecount > 0 ? item.people : []}
-              title={item.title}
-            />
-          );
-        })}
+        {results
+          .filter(
+            (item) =>
+              item.primaryimageurl !== null || item.primaryimageurl !== ""
+          )
+          .map((item, i) => {
+            return (
+              <ArtItem
+                key={"ART" + i + item.id}
+                imageURL={item.primaryimageurl}
+                artist={item.peoplecount > 0 ? item.people : []}
+                title={item.title}
+              />
+            );
+          })}
       </ResultContainer>
       <MoreButton onClick={loadMoreResultsHandler}>Load More</MoreButton>
     </LayoutContainer>
   );
 }
-
-// .filter(
-//             (item) =>
-//               item.images !== null &&
-//               (item.images.length > 0 || item.primaryimageurl !== null)
-//           )
 
 const LayoutContainer = styled.div`
   display: flex;
