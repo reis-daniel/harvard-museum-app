@@ -17,10 +17,10 @@ export default function Results({
       <ResultContainer>
         {results
           .filter(
-            (item) =>
-              item.primaryimageurl !== null || item.primaryimageurl !== ""
+            (item) => item.imagecount > 0 && item.primaryimageurl !== null
           )
           .map((item, i) => {
+            console.log(item.imagecount, item.primaryimageurl);
             return (
               <ArtItem
                 key={"ART" + i + item.id}
