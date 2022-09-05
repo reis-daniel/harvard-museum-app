@@ -23,7 +23,7 @@ function App() {
 
   // Fetch Data from API and store it inside state. This fetch will run when the sites loads!
   useEffect(() => {
-    fetchDataHandler(false, loadedPage, loadedResults, "", "");
+    fetchDataHandler(false, loadedPage, loadedResults, "");
     fetchSelectOptions("century");
     fetchSelectOptions("technique");
     fetchSelectOptions("classification");
